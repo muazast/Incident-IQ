@@ -1,0 +1,292 @@
+void main() {
+
+    Scanner scanner = new Scanner(System.in);
+
+    IO.println("==================================================");
+    IO.println("                   INCIDENTIQ                    ");
+    IO.println("           IT INCIDENT TRIAGE CONSOLE             ");
+    IO.println("==================================================");
+
+    int incidentCount = 0;
+
+    int p1Count = 0;
+    int p2Count = 0;
+    int p3Count = 0;
+    int p4Count = 0;
+
+    int majorCount = 0;
+    int totalAffectedUsers = 0;
+
+    String anotherIncident = "yes";
+
+    while (anotherIncident.equalsIgnoreCase("yes")) {
+
+        IO.println("--------------------------------------------------");
+        IO.println("                  NEW INCIDENT                   ");
+        IO.println("--------------------------------------------------");
+
+        incidentCount++;
+
+        // Incident Title
+
+        IO.println("Enter incident title:");
+        String title = scanner.nextLine().strip();
+
+        while (title.isBlank()) {
+            IO.println("Title cannot be blank. Enter again:");
+            title = scanner.nextLine().strip();
+        }
+
+        // Affected Service
+
+        IO.println("Enter affected service (Network/Application/Hardware/Access/Other):");
+        String service = scanner.nextLine().strip();
+
+        boolean validService = false;
+
+        while (!validService) {
+
+            if (service.equalsIgnoreCase("Network") ||
+                    service.equalsIgnoreCase("Application") ||
+                    service.equalsIgnoreCase("Hardware") ||
+                    service.equalsIgnoreCase("Access") ||
+                    service.equalsIgnoreCase("Other")) {
+
+                validService = true;
+
+            } else {
+                IO.println("Invalid service. Enter again:");
+                service = scanner.nextLine().strip();
+            }
+        }
+
+        // Incident Description
+
+        IO.println("Enter incident description:");
+        String description = scanner.nextLine().strip();
+
+        while (description.isBlank()) {
+            IO.println("Description cannot be blank. Enter again:");
+            description = scanner.nextLine().strip();
+        }
+
+        // Affected Users
+
+        IO.println("Enter number of affected users:");
+        int users = scanner.nextInt();
+
+        while (users < 1) {
+            IO.println("Affected users must be at least 1. Enter again:");
+            users = scanner.nextInt();
+        }
+
+        // Impact
+
+        IO.println("Enter impact level (1-4):");
+        int impact = scanner.nextInt();
+
+        while (impact < 1 || impact > 4) {
+            IO.println("Invalid impact. Enter a value between 1 and 4:");
+            impact = scanner.nextInt();
+        }
+
+        // Urgency
+
+        IO.println("Enter urgency level (1-4):");
+        int urgency = scanner.nextInt();
+
+        while (urgency < 1 || urgency > 4) {
+            IO.println("Invalid urgency. Enter a value between 1 and 4:");
+            urgency = scanner.nextInt();
+        }
+
+        scanner.nextLine();
+
+        // Priority Calculation
+
+        int priorityScore = calculatePriorityScore(impact, urgency);
+
+        String priority = determinePriority(priorityScore);
+
+        String responseTarget = getResponseTarget(priority);
+
+        // Major Incident Check
+
+        boolean majorIncident = isMajorIncident(impact, urgency, users);
+
+        if (majorIncident) {
+            majorCount++;
+        }
+
+        // Priority Counters
+
+        if (priority.equals("P1 - Critical")) {
+            p1Count++;
+        } else if (priority.equals("P2 - High")) {
+            p2Count++;
+        } else if (priority.equals("P3 - Medium")) {
+            p3Count++;
+        } else {
+            p4Count++;
+        }
+
+        totalAffectedUsers = totalAffectedUsers + users;
+
+        // Incident ID
+
+        String incidentID;
+
+        if (incidentCount < 10) {
+            incidentID = "INC-00" + incidentCount;
+        } else if (incidentCount < 100) {
+            incidentID = "INC-0" + incidentCount;
+        } else {
+            incidentID = "INC-" + incidentCount;
+        }
+
+        // Incident Report
+
+        IO.println("--------------------------------------------------");
+        IO.println("                 INCIDENT REPORT                  ");
+        IO.println("--------------------------------------------------");
+
+        IO.println("Incident ID       : " + incidentID);
+        IO.println("Title             : " + title);
+        IO.println("Service           : " + service);
+        IO.println("Description       : " + description);
+        IO.println("Affected Users    : " + users);
+        IO.println("Impact            : " + impact);
+        IO.println("Urgency           : " + urgency);
+
+        IO.println("Priority Score    : " + priorityScore);
+        IO.println("Priority          : " + priority);
+        IO.println("Response Target   : " + responseTarget);
+
+        if (majorIncident) {
+            IO.println("MAJOR INCIDENT ALERT!");
+        } else {
+            IO.println("Major Incident    : No");
+        }
+
+        IO.println("--------------------------------------------------");
+
+        // Register Another Incident
+
+        IO.println("Register another incident? (yes/no):");
+        anotherIncident = scanner.nextLine().strip();
+
+        while (!anotherIncident.equalsIgnoreCase("yes") &&
+                !anotherIncident.equalsIgnoreCase("no")) {
+
+            IO.println("Please enter yes or no:");
+            anotherIncident = scanner.nextLine().strip();
+        }
+    }
+
+    // Final Summary
+
+    displaySummary(incidentCount, p1Count, p2Count, p3Count,
+            p4Count, majorCount, totalAffectedUsers);
+
+    scanner.close();
+}
+
+
+// Method 1: Calculate Priority Score
+
+int calculatePriorityScore(int impact, int urgency) {
+
+    int score = (impact * 2) + (urgency * 2);
+
+    return score;
+}
+
+
+// Method 2: Determine Priority
+
+String determinePriority(int score) {
+
+    if (score >= 13) {
+        return "P1 - Critical";
+    } else if (score >= 9) {
+        return "P2 - High";
+    } else if (score >= 5) {
+        return "P3 - Medium";
+    } else {
+        return "P4 - Low";
+    }
+}
+
+
+// Method 3: Get Response Target
+
+String getResponseTarget(String priority) {
+
+    if (priority.equals("P1 - Critical")) {
+        return "1 hour";
+    } else if (priority.equals("P2 - High")) {
+        return "4 hours";
+    } else if (priority.equals("P3 - Medium")) {
+        return "8 hours";
+    } else {
+        return "24 hours";
+    }
+}
+
+
+// Method 4: Check Major Incident
+
+boolean isMajorIncident(int impact, int urgency, int users) {
+
+    if ((impact == 4 && users >= 50) ||
+            (impact >= 3 && urgency == 4 && users >= 25)) {
+
+        return true;
+
+    } else {
+        return false;
+    }
+}
+
+
+// Method 5: Display Operational Summary
+
+void displaySummary(int total, int p1, int p2, int p3,
+                    int p4, int major, int users) {
+
+    double averageUsers = 0;
+    double percentage = 0;
+
+    if (total > 0) {
+        averageUsers = (double) users / total;
+        percentage = (double) (p1 + p2) * 100 / total;
+    }
+
+    IO.println("==================================================");
+    IO.println("               OPERATIONAL SUMMARY               ");
+    IO.println("==================================================");
+
+    IO.println("Total Incidents Registered : " + total);
+
+    IO.println();
+    IO.println("Priority Distribution:");
+
+    IO.println("P1 - Critical              : " + p1);
+    IO.println("P2 - High                  : " + p2);
+    IO.println("P3 - Medium                : " + p3);
+    IO.println("P4 - Low                   : " + p4);
+
+    IO.println();
+    IO.println("Major Incidents            : " + major);
+
+    IO.println();
+    IO.println("Total Affected Users       : " + users);
+    IO.println("Average Affected Users     : " + averageUsers);
+
+    IO.println();
+    IO.println("P1/P2 Incident Percentage  : " + percentage + "%");
+
+    IO.println("==================================================");
+    IO.println("          INCIDENTIQ SESSION COMPLETED           ");
+    IO.println("==================================================");
+}
