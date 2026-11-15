@@ -1,0 +1,93 @@
+
+==================================================
+                   INCIDENTIQ
+           IT INCIDENT TRIAGE CONSOLE
+==================================================
+--------------------------------------------------
+                  NEW INCIDENT
+--------------------------------------------------
+Enter incident title:
+Office Network Outage
+Enter affected service (Network/Application/Hardware/Access/Other):
+Network
+Enter incident description:
+Office network is not working
+Enter number of affected users:
+80
+Enter impact level (1-4):
+4
+Enter urgency level (1-4):
+4
+
+--------------------------------------------------
+                 INCIDENT REPORT
+--------------------------------------------------
+Incident ID       : INC-001
+Title             : Office Network Outage
+Service           : Network
+Description       : Office network is not working
+Affected Users    : 80
+Impact            : 4
+Urgency           : 4
+Priority Score    : 16
+Priority          : P1 - Critical
+Response Target   : 1 hour
+MAJOR INCIDENT ALERT!
+--------------------------------------------------
+Register another incident? (yes/no):
+yes
+
+--------------------------------------------------
+                  NEW INCIDENT
+--------------------------------------------------
+Enter incident title:
+Laptop Keyboard Issue
+Enter affected service (Network/Application/Hardware/Access/Other):
+Hardware
+Enter incident description:
+Keyboard keys are not responding
+Enter number of affected users:
+1
+Enter impact level (1-4):
+1
+Enter urgency level (1-4):
+2
+
+--------------------------------------------------
+                 INCIDENT REPORT
+--------------------------------------------------
+Incident ID       : INC-002
+Title             : Laptop Keyboard Issue
+Service           : Hardware
+Description       : Keyboard keys are not responding
+Affected Users    : 1
+Impact            : 1
+Urgency           : 2
+Priority Score    : 6
+Priority          : P3 - Medium
+Response Target   : 8 hours
+Major Incident    : No
+--------------------------------------------------
+Register another incident? (yes/no):
+no
+
+==================================================
+               OPERATIONAL SUMMARY
+==================================================
+Total Incidents Registered : 2
+
+Priority Distribution:
+P1 - Critical              : 1
+P2 - High                  : 0
+P3 - Medium                : 1
+P4 - Low                   : 0
+
+Major Incidents            : 1
+
+Total Affected Users       : 81
+Average Affected Users     : 40.5
+
+P1/P2 Incident Percentage  : 50.0%
+==================================================
+          INCIDENTIQ SESSION COMPLETED
+==================================================
